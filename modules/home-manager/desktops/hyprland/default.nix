@@ -11,6 +11,10 @@
     systemd.enableXdgAutostart = true;
     package = pkgs.hyprland;
     importantPrefixes = [];
+    settings = {
+      "$mod" = "SUPER";
+      
+    }
     extraConfig = ''
 
     '';

@@ -63,8 +63,8 @@
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     overlays = import ./overlays { inherit inputs; };
-    nisoxModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
+    nisoxModules = import ./modules/nixos/common;
+    homeManagerModules = import ./modules/home-manager/common;
 
     nixosConfigurations = nixpkgs.lib.genAttrs hosts (host: nixosConfigurationForHost host);
   };

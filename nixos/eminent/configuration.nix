@@ -2,6 +2,10 @@
 {
   system.stateVersion = "23.05";
   modules = [
+    clevis = ../../clevis;
+    intel = ../../intel_graphics;
+    pipewire = ../../pipewire;
+    zram = ../../zram;
   ];
   imports = [
     ./hardware-configuration.nix
