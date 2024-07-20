@@ -38,18 +38,22 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    emacs-overlay = { 
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixpkgs, home-manager, flake-parts, flake-root, treefmt-nix, impermanence, lanzaboote, sops-nix, hyprland, hyprland-plugins, rust-overlay, ... } @ inputs:
+  output = { self, nixpkgs, home-manager, flake-parts, flake-root, treefmt-nix, impermanence, lanzaboote, sops-nix, hyprland, hyprland-plugins, emacs-overlay, rust-overlay, ... } @ inputs:
   let
     inherit (self) outputs;
     systems = [ "x86_64-linux" ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     hosts = [ "eminent" "asgard" ];
-    nixosConfigurationForHost = host: nixpkgs.lib.nixosSystem {
+    nixosConfigurationsForHost = host: nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs outputs host; };
       modules = [
         ./nixos/${host}
@@ -59,7 +63,7 @@
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     overlays = import ./overlays { inherit inputs; };
-    nixosModules = import ./modules/nixos/common;
+    nisoxModules = import ./modules/nixos/common;
     homeManagerModules = import ./modules/home-manager/common;
 
     nixosConfigurations = nixpkgs.lib.genAttrs hosts (host: nixosConfigurationForHost host);
