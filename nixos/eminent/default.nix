@@ -1,16 +1,19 @@
 { inputs, outputs, lib, config, pkgs, host, ... }:
-{
-  system.stateVersion = "23.05";
-  modules = [
-    clevis = ../../clevis;
-    intel = ../../intel_graphics;
-    pipewire = ../../pipewire;
-    zram = ../../zram;
+let
+  modulesToImport = [
+    ../../clevis
+    ../../intel_graphics
+    ../../pipewire
+    ../../zram
   ];
+  importedModules = map (modulePath: import modulePath) modulesToImport;
+in {
+  system.stateVersion = "23.05";
+  modules = importedModules;
   imports = [
     ./hardware-configuration.nix
   ];
-  networking.hostName = ${host};
+  networking.hostName = "${host}";
   services.openssh = {
     enable = true;
     settings = {
