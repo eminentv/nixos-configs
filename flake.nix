@@ -9,7 +9,7 @@
     };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.lib.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     ez-configs = {
       url = "github:ehllie/ez-configs";
